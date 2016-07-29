@@ -1,7 +1,7 @@
 /**
  * Created by Evan on 7/28/2016.
  */
-class CNF
+public class CNF
 {
     public String[] clauses;  // the clauses as strings, optional
     public int[][] cl; // the clauses as lists of integers
@@ -20,10 +20,14 @@ class CNF
         int runs[] = {2};
         NFA nfa = new NFA( runs );
         CNF cnf = new CNF( n, nfa );
+
         System.out.println( "C = "+cnf.C );
-        for (int c=0; c<cnf.C; ++c) {
+        for (int c=0; c<cnf.C; ++c)
+        {
             for (int i=0; i<cnf.cl[c].length; ++i)
-                System.out.print( cnf.cl[c][i]+" " );
+            {
+                System.out.print(cnf.cl[c][i] + " ");
+            }
             System.out.println();
         }
     }
