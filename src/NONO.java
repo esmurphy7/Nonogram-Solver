@@ -99,6 +99,13 @@ public class NONO
             CNFs.add(cnf);
         }
 
+        // count total number of variables
+        int numVars = 0;
+        for(CNF cnf : CNFs)
+        {
+            numVars += cnf.V;
+        }
+
         // combine cnfs into one
         int bp = 0;
         //combineCNfs(CNFs);

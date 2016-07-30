@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Evan on 7/28/2016.
@@ -10,6 +9,7 @@ public class CNF
     {
         public boolean getBooleanValue();
         public boolean negate();
+        public boolean isNegated();
     }
 
     private class kTransition implements ICNFComponent
@@ -48,6 +48,11 @@ public class CNF
             negated = !negated;
             return negated;
         }
+
+        @Override
+        public boolean isNegated() {
+            return negated;
+        }
     }
 
     private class Literal implements ICNFComponent
@@ -77,6 +82,11 @@ public class CNF
         @Override
         public boolean negate() {
             negated = !negated;
+            return negated;
+        }
+
+        @Override
+        public boolean isNegated() {
             return negated;
         }
     }
@@ -111,6 +121,11 @@ public class CNF
         public boolean negate()
         {
             negated = !negated;
+            return negated;
+        }
+
+        @Override
+        public boolean isNegated() {
             return negated;
         }
     }
@@ -153,6 +168,11 @@ public class CNF
         @Override
         public boolean negate() {
             negated = !negated;
+            return negated;
+        }
+
+        @Override
+        public boolean isNegated() {
             return negated;
         }
 
@@ -373,6 +393,50 @@ public class CNF
             }
         }
         this.clauses.addAll(viClauses);
+
+        // store number of clauses
+        this.C = clauses.size();
+
+        // set this CNFs number of distinct vars
+        this.V = getDistinctVariablesAsStrings(clauses).size();
+    }
+
+    public static List<String> getDistinctVariablesAsStrings(List<Clause> ...clauseSets)
+    {
+        // create set of distinct variables for this entire CNF
+        List<String> distinctVariables = new ArrayList<String>();
+
+        // search every variable of every clause and check if it's been accounted for
+        for(List<Clause> clauses : clauseSets)
+        {
+            for(Clause clause : clauses)
+            {
+                for (ICNFComponent var : clause.variables)
+                {
+                    // a negated variable doesn't necessarily make it distinct
+                    boolean varWasNegated = false;
+                    if (var.isNegated())
+                    {
+                        var.negate();
+                        varWasNegated = true;
+                    }
+
+                    // only mark the variable as distinct if it hasn't been accounted for yet
+                    if (!distinctVariables.contains(var.toString()))
+                    {
+                        distinctVariables.add(var.toString());
+                    }
+
+                    // negate it back
+                    if(varWasNegated)
+                    {
+                        var.negate();
+                    }
+                }
+            }
+        }
+
+        return distinctVariables;
     }
 
     public String toString()
