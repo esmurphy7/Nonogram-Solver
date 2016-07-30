@@ -231,6 +231,7 @@ public class NFA
 
         // This is just for your testing purposes
         int[] runs = {2, 1, 3};
+        System.out.println("Runs: " + runs[0] + ", " + runs[1] + ", " + runs[2]);
         NFA nfa = new NFA( runs );
         System.out.println( nfa );
 

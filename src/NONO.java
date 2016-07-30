@@ -35,6 +35,8 @@ public class NONO
     public int numColumns;
     public List<Run> rowSequence;
     public List<Run> columnSequence;
+    public List<NFA> NFAs = new ArrayList<NFA>();
+    public List<CNF> CNFs = new ArrayList<CNF>();
 
     public NONO(Scanner in)
     {
@@ -86,6 +88,9 @@ public class NONO
             colNFAs.add(nfa);
         }
 
+        NFAs.addAll(rowNFAs);
+        NFAs.addAll(colNFAs);
+
         // create a CNF from each NFA
         List<CNF> CNFs = new ArrayList<CNF>();
         for(NFA nfa : rowNFAs)
@@ -98,6 +103,8 @@ public class NONO
             CNF cnf = new CNF(numRows, nfa);
             CNFs.add(cnf);
         }
+
+        this.CNFs.addAll(CNFs);
 
         // count total number of variables
         int numVars = 0;
@@ -114,7 +121,7 @@ public class NONO
     public String toString()
     {
         // return the combined CNF in dimacs format
-        return "TODO: implement NONO.toString()";
+        return "TODO: combine each cnf and output a .cnf file";
     }
     
     public static void main ( String[] args )
@@ -143,6 +150,20 @@ public class NONO
 
         // build nonogram and output combined cnf values
         NONO nonogram = new NONO(in);
-        nonogram.toString();
+        String NFAstr = "========================================================" + "\n";
+        for(NFA nfa : nonogram.NFAs)
+        {
+            NFAstr += nfa.toString();
+        }
+        System.out.println(String.format("NFAs (%d): ", nonogram.NFAs.size()) + NFAstr);
+
+        String CNFstr = "========================================================" + "\n";
+        for(CNF cnf : nonogram.CNFs)
+        {
+            CNFstr += cnf.toString();
+        }
+        System.out.println(String.format("CNFs (%d): ", nonogram.CNFs.size()) + CNFstr);
+
+        System.out.println(nonogram.toString());
     }
 }

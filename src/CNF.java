@@ -448,7 +448,7 @@ public class CNF
         for(Clause clause : clauses)
         {
             clausesStr += clause.toString();
-            clausesStr += (clause == clauses.get(clauses.size()-1)) ? "" : andStr;
+            clausesStr += (clause == clauses.get(clauses.size()-1)) ? "" : andStr + newline;
 
         }
 
@@ -464,7 +464,10 @@ public class CNF
         NFA nfa = new NFA( runs );
         CNF cnf = new CNF( n, nfa );
 
-        System.out.println("CNF: " + cnf.toString());
+        System.out.println("CNF: ");
+        System.out.println("V: " + cnf.V);
+        System.out.println("C: " + cnf.C);
+        System.out.println(cnf.toString());
 
     }
 }
