@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class NFA
 {
-    private class Transition
+    public class Transition
     {
         public int src;
         public int input;
@@ -152,6 +152,18 @@ public class NFA
             Transition transition = new Transition(in.nextInt(), in.nextInt(), in.nextInt());
             transitions.add(transition);
         }
+    }
+
+    public static boolean stateIsInSet(int q, int[] set)
+    {
+        for(int i=0; i<set.length; i++)
+        {
+            if(q == set[i])
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String toString()
