@@ -52,6 +52,7 @@ public class NONO
             {
                 run.elements.add(in.nextInt());
             }
+            rowSequence.add(run);
         }
 
         // parse each line for column runs numColumns times
@@ -65,35 +66,42 @@ public class NONO
             {
                 run.elements.add(in.nextInt());
             }
+            columnSequence.add(run);
         }
         
         // create an NFA from each run
         // create from row sequences
-        List<NFA> NFAs = new ArrayList<NFA>();
+        List<NFA> rowNFAs = new ArrayList<NFA>();
         for(Run run : rowSequence)
         {
             NFA nfa = new NFA(run.getElementsAsArray());
-            NFAs.add(nfa);
+            rowNFAs.add(nfa);
         }
 
         // create from column sequence
+        List<NFA> colNFAs = new ArrayList<NFA>();
         for(Run run : columnSequence)
         {
             NFA nfa = new NFA(run.getElementsAsArray());
-            NFAs.add(nfa);
+            colNFAs.add(nfa);
         }
 
-
         // create a CNF from each NFA
-//        List<CNF> CNFs = new ArrayList<CNF>();
-//        for(NFA nfa : NFAs)
-//        {
-//            CNF cnf = new CNF(n, nfa);
-//            CNFs.add(cnf);
-//        }
-//
-//        // combine cnfs into one
-//        combineCNfs(CNFs);
+        List<CNF> CNFs = new ArrayList<CNF>();
+        for(NFA nfa : rowNFAs)
+        {
+            CNF cnf = new CNF(numColumns, nfa);
+            CNFs.add(cnf);
+        }
+        for(NFA nfa : colNFAs)
+        {
+            CNF cnf = new CNF(numRows, nfa);
+            CNFs.add(cnf);
+        }
+
+        // combine cnfs into one
+        int bp = 0;
+        //combineCNfs(CNFs);
     }
     
     public String toString()
